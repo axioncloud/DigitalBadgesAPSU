@@ -1,0 +1,23 @@
+{
+  "name": "digitalbadgesapsu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "bootstrap": "^4.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ioncloud64/DigitalBadgesAPSU.git"
+  },
+  "author": "ioncloud64",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/ioncloud64/DigitalBadgesAPSU/issues"
+  },
+  "homepage": "https://github.com/ioncloud64/DigitalBadgesAPSU#readme"
+}
