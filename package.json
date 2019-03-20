@@ -15,7 +15,7 @@
     "url": "git+https://github.com/ioncloud64/DigitalBadgesAPSU.git"
   },
   "author": "ioncloud64",
-  "license": "UNLICENSED",
+  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/ioncloud64/DigitalBadgesAPSU/issues"
   },
