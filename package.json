@@ -9,7 +9,9 @@
     "openbadges-bakery": "^1.0.5",
     "popper.js": "^1.14.7"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "request": ">=2.68.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

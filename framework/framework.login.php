@@ -29,15 +29,15 @@
     preg_match('/^Set-Cookie:\s*([^;]*)/mi', $response, $matches);
     $curl_info = curl_getinfo($ch);
     $code = intval($curl_info["http_code"]);
+    curl_close($ch);
 
     if ($code === 200) {
       $_SESSION["TOKEN"] = $matches[1];
-      header("Location: /");
+      header("Location: /dashboard.php");
     }
     else if ($code === 401) {
       $_SESSION["TOKEN"] = "false";
     }
-    curl_close($ch);
   }
 
   // If login is incorrect or $_SESSION["TOKEN"] is set to false return to the login page
