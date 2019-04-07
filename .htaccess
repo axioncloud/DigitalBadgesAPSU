@@ -6,6 +6,8 @@ IndexIgnore *
   Deny from all
 </FilesMatch>
 
+RedirectMatch 404 /\.git
+
 ErrorDocument 400 /error.php
 ErrorDocument 401 /error.php
 ErrorDocument 403 /error.php
