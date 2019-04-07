@@ -52,9 +52,11 @@ Allowed characters [A-Z a-z 0-9 _ .]"
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a href="/badge_management.php">Badge Management</a>
-          <a href="/backpack.php">My Backpack</a>
+        <li class="nav-item">
+          <a class="nav-link <?php echo ($_SESSION["PAGE_NAME"] === "BADGE_MANAGEMENT") ? "active" : "" ; ?>" href="/badge_management.php">Badge Management</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link <?php echo ($_SESSION["PAGE_NAME"] === "MY_BACKPACK") ? "active" : ""; ?>" href="/my_backpack.php">My Backpack</a>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0" action="framework/framework.logout.php" method="POST">
