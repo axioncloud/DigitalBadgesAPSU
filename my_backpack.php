@@ -8,7 +8,6 @@ if (isset($_SESSION["TOKEN"])) {
 } else if (!isset($_SESSION["TOKEN"])) {
     header("Location: /");
 }
-// TODO: Also check if user is an issuer; if not, redirect to dashboard.
 ?>
 <?php $_SESSION["PAGE_NAME"] = "MY_BACKPACK"; ?>
 <html lang="en">

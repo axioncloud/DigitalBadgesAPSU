@@ -14,6 +14,7 @@ if (isset($_SESSION["TOKEN"])) {
   curl_close($ch);
   if ($code === 200) {
     unset($_SESSION["TOKEN"]);
+    unset($_SESSION["ROLES"]);
     header("Location: /");
   }
 }

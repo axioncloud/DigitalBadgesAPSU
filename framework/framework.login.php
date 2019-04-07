@@ -26,13 +26,17 @@
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response  = curl_exec($ch);
-    preg_match('/^Set-Cookie:\s*([^;]*)/mi', $response, $matches);
+    preg_match('/^Set-Cookie:\s*([^;]*)/mi', $response, $regex_match);
     $curl_info = curl_getinfo($ch);
     $code = intval($curl_info["http_code"]);
     curl_close($ch);
 
     if ($code === 200) {
-      $_SESSION["TOKEN"] = $matches[1];
+      preg_match('/\{(?:[^{}]|(?R))*\}/', $response, $regex_match_roles);
+      $json = json_decode($regex_match_roles[0], true);
+      $roles = $json["roles"];
+      $_SESSION["TOKEN"] = $regex_match[1];
+      $_SESSION["ROLES"] = $roles;
       header("Location: /dashboard.php");
     }
     else if ($code === 401) {

@@ -4,8 +4,6 @@
 if (isset($_SESSION["TOKEN"])) {
   if ($_SESSION["TOKEN"] !== "false") {
     header("Location: /dashboard.php");
-  } else if ($_SESSION["TOKEN"] === "false") {
-    unset($_SESSION["TOKEN"]);
   }
 }
 ?>
@@ -16,6 +14,5 @@ if (isset($_SESSION["TOKEN"])) {
     <?php include 'framework/template.navbar.php'; ?>
     <?php include 'framework/template.content.php'; ?>
     <?php include 'framework/template.footer.php'; ?>
-
   </body>
 </html>

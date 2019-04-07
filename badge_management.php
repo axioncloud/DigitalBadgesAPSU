@@ -8,7 +8,11 @@ if (isset($_SESSION["TOKEN"])) {
 } else if (!isset($_SESSION["TOKEN"])) {
     header("Location: /");
 }
-// TODO: Also check if user is an issuer; if not, redirect to dashboard.
+if (isset($_SESSION["ROLES"])) {
+  if ($_SESSION["ROLES"][0] !== "_admin" and $_SESSION["ROLES"][0] !== "issuer") {
+    header("Location: /");
+  }
+}
 ?>
 <?php $_SESSION["PAGE_NAME"] = "BADGE_MANAGEMENT"; ?>
 <html lang="en">

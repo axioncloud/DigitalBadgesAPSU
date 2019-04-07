@@ -24,15 +24,15 @@ switch ($_SESSION["PAGE_NAME"]) {
           <?php
             if (isset($_SESSION["TOKEN"])) {
               if ($_SESSION["TOKEN"] === "false") {
-                var_dump($_SESSION);
           ?>
           <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            Login entry is incorrect! Please try again.
+            Login entry is incorrect!<br>Please try again.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <?php
+                unset($_SESSION["TOKEN"]);
               }
             }
           ?>
