@@ -1,0 +1,7 @@
+# Hide the contents of directories
+IndexIgnore *
+
+<FilesMatch "\.(md|json)$">
+  Order Deny,Allow
+  Deny from all
+</FilesMatch>
