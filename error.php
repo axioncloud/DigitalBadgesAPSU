@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php require 'framework/framework.globals.php'; ?>
-<?php $_SESSION["PAGE_NAME"] = "404"; ?>
+<?php $_SESSION["PAGE_NAME"] = "ERROR"; ?>
 <html lang="en">
   <?php include 'framework/framework.head.php'; ?>
   <body>

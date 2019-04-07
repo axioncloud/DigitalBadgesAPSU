@@ -75,7 +75,7 @@ switch ($_SESSION["PAGE_NAME"]) {
     </section>
 <?php
   break;
-  default:
+  case 'ERROR':
     // This is a 404,403,401
     ?>
     <section class="container mb-3">
@@ -90,6 +90,8 @@ switch ($_SESSION["PAGE_NAME"]) {
       </div>
     </section>
     <?php
+  break;
+  default:
     break;
 }
 ?>

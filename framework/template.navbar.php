@@ -45,10 +45,33 @@ Allowed characters [A-Z a-z 0-9 _ .]"
 <?php
   break;
   default:
+  case 'ERROR':
     // Probably not the most efficient or best way, but it's the jist of what this should do
-    // This case is used for 404; could be changed too
+    // if the login token is set, show the navigation bar for a logged in user
+    // if not, show the home's navbar, which is a login bar
     if (isset($_SESSION["TOKEN"])) {
-      goto LOGIN;
+      ?>
+      <!-- Navigation -->
+      <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a class="navbar-brand" href="<?php echo $_SESSION['URL']; ?>">APSU IAS: Badge Management</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link <?php echo ($_SESSION["PAGE_NAME"] === "BADGE_MANAGEMENT") ? "active" : "" ; ?>" href="/badge_management.php">Badge Management</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <?php echo ($_SESSION["PAGE_NAME"] === "MY_BACKPACK") ? "active" : ""; ?>" href="/my_backpack.php">My Backpack</a>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0" action="framework/framework.logout.php" method="POST">
+            <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
+          </form>
+        </div>
+      </nav>
+      <?php
     } else {
       goto HOME;
     }
