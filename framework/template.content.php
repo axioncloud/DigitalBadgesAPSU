@@ -76,6 +76,20 @@ switch ($_SESSION["PAGE_NAME"]) {
 <?php
   break;
   default:
-    // TODO: 404
+    // This is a 404,403,401
+    ?>
+    <section class="container mb-3">
+      <div class="row">
+        <div class="col-6 center mx-auto w-50 text-center">
+          <h1 class="display-1"><?php echo http_response_code(); ?></h1>
+          <p class="">The page <b class="text-danger"><?php echo (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ?
+                "https" : "http") . "://" . $_SERVER['HTTP_HOST'] .
+                $_SERVER['REQUEST_URI']; ?></b> requested is unavailable, missing, or incorrect.</p>
+          <a class="btn btn-outline-primary my-2 my-sm-0 btn-lg mx-auto center" href="/" role="button">Take me to safety!</a>
+        </div>
+      </div>
+    </section>
+    <?php
     break;
-} ?>
+}
+?>

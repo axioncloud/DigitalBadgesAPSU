@@ -1,2 +1,2 @@
 # Hide the contents of directories
-IndexIgnore *
+Options -Indexes

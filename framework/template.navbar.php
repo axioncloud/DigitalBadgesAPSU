@@ -1,6 +1,7 @@
 <?php
 switch ($_SESSION["PAGE_NAME"]) {
   case 'HOME':
+    HOME:
 ?>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-md navbar-light bg-light">
@@ -26,6 +27,7 @@ Allowed characters [A-Z a-z 0-9 _ .]"
 <?php
   break;
   case 'LOGIN':
+    LOGIN:
 ?>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-md navbar-light bg-light">
@@ -43,29 +45,12 @@ Allowed characters [A-Z a-z 0-9 _ .]"
 <?php
   break;
   default:
-  ?>
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-md navbar-light bg-light">
-    <a class="navbar-brand" href="<?php echo $_SESSION['URL']; ?>">APSU IAS: Badge Management</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <?php if ($_SESSION["ROLES"][0] === "_admin" or $_SESSION["ROLES"][0] === "issuer") { ?>
-        <li class="nav-item">
-          <a class="nav-link <?php echo ($_SESSION["PAGE_NAME"] === "BADGE_MANAGEMENT") ? "active" : "" ; ?>" href="/badge_management.php">Badge Management</a>
-        </li>
-        <?php } ?>
-        <li class="nav-item">
-          <a class="nav-link <?php echo ($_SESSION["PAGE_NAME"] === "MY_BACKPACK") ? "active" : ""; ?>" href="/my_backpack.php">My Backpack</a>
-        </li>
-      </ul>
-      <form class="form-inline my-2 my-lg-0" action="framework/framework.logout.php" method="POST">
-        <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
-      </form>
-    </div>
-  </nav>
-  <?php
+    // Probably not the most efficient or best way, but it's the jist of what this should do
+    // This case is used for 404; could be changed too
+    if (isset($_SESSION["TOKEN"])) {
+      goto LOGIN;
+    } else {
+      goto HOME;
+    }
     break;
 } ?>
