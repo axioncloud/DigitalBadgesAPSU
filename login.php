@@ -4,6 +4,8 @@
 if (isset($_SESSION["TOKEN"])) {
   if ($_SESSION["TOKEN"] !== "false") {
     header("Location: /dashboard.php");
+  } else if ($_SESSION["TOKEN"] === "false") {
+    unset($_SESSION["TOKEN"]);
   }
 }
 ?>

@@ -13,7 +13,6 @@ switch ($_SESSION["PAGE_NAME"]) {
           <li class="nav-item active">
           </li>
         </ul>
-        <?php // TODO: If user is not logged in, display this, if they are show their accessible functions?>
         <form class="form-inline my-2 my-lg-0" action="login.php" method="POST">
           <input class="form-control mr-sm-2" name="username" type="text" placeholder="Username"
           data-toggle="tooltip" aria-label="Username"
@@ -43,7 +42,7 @@ Allowed characters [A-Z a-z 0-9 _ .]"
     </nav>
 <?php
   break;
-  case 'DASHBOARD':
+  default:
   ?>
   <!-- Navigation -->
   <nav class="navbar navbar-expand-md navbar-light bg-light">
@@ -54,17 +53,15 @@ Allowed characters [A-Z a-z 0-9 _ .]"
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
+          <a href="/badge_management.php">Badge Management</a>
+          <a href="/backpack.php">My Backpack</a>
         </li>
       </ul>
-      <?php // TODO: If user is not logged in, display this, if they are show their accessible functions?>
       <form class="form-inline my-2 my-lg-0" action="framework/framework.logout.php" method="POST">
         <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
       </form>
     </div>
   </nav>
   <?php
-  break;
-  default:
-    // TODO: 404
     break;
 } ?>

@@ -66,7 +66,13 @@ switch ($_SESSION["PAGE_NAME"]) {
   break;
   case 'DASHBOARD'
 ?>
-
+    <section class="container">
+      <div class="row">
+        <div class="col-6 center">
+          <p>You can put an image or slideshow here</p>
+        </div>
+      </div>
+    </section>
 <?php
   break;
   default:
