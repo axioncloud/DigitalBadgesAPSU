@@ -20,7 +20,7 @@ switch ($_SESSION["PAGE_NAME"]) {
           title="6 to 20 characters
 Allowed characters [A-Z a-z 0-9 _ .]"
           pattern="^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+          <button class="btn btn-outline-success my-2 my-sm-0 ml-auto" type="submit">Login</button>
         </form>
       </div>
     </nav>
@@ -32,15 +32,6 @@ Allowed characters [A-Z a-z 0-9 _ .]"
     <!-- Navigation -->
     <nav class="navbar navbar-expand-md navbar-light bg-light">
       <a class="navbar-brand" href="<?php echo $_SESSION['URL']; ?>">APSU IAS: Badge Management</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-          </li>
-        </ul>
-      </div>
     </nav>
 <?php
   break;
@@ -59,9 +50,15 @@ Allowed characters [A-Z a-z 0-9 _ .]"
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
+            <?php
+            if ($_SESSION["ROLES"][0] !== "recipient") {
+            ?>
             <li class="nav-item">
               <a class="nav-link <?php echo ($_SESSION["PAGE_NAME"] === "BADGE_MANAGEMENT") ? "active" : "" ; ?>" href="/badge_management.php">Badge Management</a>
             </li>
+            <?php
+            }
+            ?>
             <li class="nav-item">
               <a class="nav-link <?php echo ($_SESSION["PAGE_NAME"] === "MY_BACKPACK") ? "active" : ""; ?>" href="/my_backpack.php">My Backpack</a>
             </li>
