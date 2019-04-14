@@ -51,7 +51,14 @@ Allowed characters [A-Z a-z 0-9 _ .]"
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <?php
-            if ($_SESSION["ROLES"][0] !== "recipient") {
+            if (in_array("_admin", $_SESSION["ROLES"])) {
+            ?>
+            <li class="nav-item">
+              <a class="nav-link <?php echo ($_SESSION["PAGE_NAME"] === "USER_MANAGEMENT") ? "active" : "" ; ?>" href="/user_management.php">User Management</a>
+            </li>
+            <?php
+            }
+            if (in_array("issuer", $_SESSION["ROLES"]) or in_array("_admin", $_SESSION["ROLES"])) {
             ?>
             <li class="nav-item">
               <a class="nav-link <?php echo ($_SESSION["PAGE_NAME"] === "BADGE_MANAGEMENT") ? "active" : "" ; ?>" href="/badge_management.php">Badge Management</a>

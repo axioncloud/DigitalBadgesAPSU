@@ -1,12 +1,20 @@
 # Hide the contents of directories
 IndexIgnore *
 
+
 <FilesMatch "\.(md|json)$">
   Order Deny,Allow
   Deny from all
 </FilesMatch>
 
 RedirectMatch 404 /\.git
+
+# RewriteEngine On
+# RewriteRule ^framework/ - [L,R=404]
+# RewriteRule ^js/ - [L,R=404]
+# RewriteRule ^node_modules/ - [L,R=404]
+# RewriteRule ^css/ - [L,R=404]
+# RewriteRule ^.github/ - [L,R=404]
 
 ErrorDocument 400 /error.php
 ErrorDocument 401 /error.php

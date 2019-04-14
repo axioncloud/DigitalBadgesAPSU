@@ -17,5 +17,8 @@ if (isset($_SESSION["TOKEN"])) {
     unset($_SESSION["ROLES"]);
     header("Location: /");
   }
+} else {
+  header('HTTP/1.0 404 Not Found');
+  include '../error.php';
 }
 ?>
