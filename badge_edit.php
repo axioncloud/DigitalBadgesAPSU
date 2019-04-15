@@ -14,13 +14,12 @@ if (isset($_SESSION["ROLES"])) {
   }
 }
 ?>
-<?php $_SESSION["PAGE_NAME"] = "BADGE_MANAGEMENT"; ?>
+<?php $_SESSION["PAGE_NAME"] = "BADGE_EDIT"; ?>
 <html lang="en">
   <?php include 'framework/framework.head.php'; ?>
   <body>
     <?php include 'framework/template.navbar.php'; ?>
     <?php include 'framework/template.content.php'; ?>
     <?php include 'framework/template.footer.php'; ?>
-    <script src="/js/search_badges.js"></script>
   </body>
 </html>

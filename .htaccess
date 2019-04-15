@@ -2,7 +2,12 @@
 IndexIgnore *
 
 
-<FilesMatch "\.(md|json)$">
+<FilesMatch "\.(md)$">
+  Order Deny,Allow
+  Deny from all
+</FilesMatch>
+
+<FilesMatch "(package.json|package-lock.json)">
   Order Deny,Allow
   Deny from all
 </FilesMatch>

@@ -1,5 +1,5 @@
 <?php
-include 'framework.globals.php';
+require 'framework.globals.php';
 // check if the token is already set to false
 // if it is, skip this
 if (isset($_SESSION["TOKEN"])) {

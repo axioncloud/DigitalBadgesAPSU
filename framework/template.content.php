@@ -131,7 +131,7 @@ switch ($_SESSION["PAGE_NAME"]) {
                 $auth_header[] = 'Content-type: application/x-www-form-urlencoded';
                 $auth_header[] = 'Cookie: '.$_SESSION["TOKEN"];
 
-                curl_setopt($ch, CURLOPT_URL, $_SESSION["COUCHDB"]."/_users/_design/_auth/_view/user-info"); // use couchdb session database for login
+                curl_setopt($ch, CURLOPT_URL, $_SESSION["COUCHDB"]."/_users/_design/_all-users/_list/users/user-info"); // use couchdb session database for login
                 curl_setopt($ch, CURLOPT_HTTPHEADER, $auth_header);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -142,19 +142,20 @@ switch ($_SESSION["PAGE_NAME"]) {
                 $code = intval($curl_info["http_code"]);
                 // var_dump($code);
                 $json_data = json_decode($response, true);
+                // var_dump($json_data);
                 if ($code !== 401) {
-                  foreach ($json_data["rows"] as $user) {
+                  foreach ($json_data as $user) {
                     // fName, lName
                     // uname - role
                     ?>
                     <form action="/user_account.php" method="POST">
                       <button type="submit" class="list-group-item list-group-item-action">
-                        <input type="hidden" name="fName" value="<?php echo $user["value"][0]; ?>" />
-                        <input type="hidden" name="lName" value="<?php echo $user["value"][1]; ?>" />
-                        <input type="hidden" name="username" value="<?php echo $user["key"]; ?>" />
-                        <input type="hidden" name="role" value="<?php echo $user["value"][2][0]; ?>" />
-                        <h5><?php echo $user["value"][1].", ".$user["value"][0] ?></h5>
-                        <small><?php echo $user["key"]." - ".$user["value"][2][0] ?></small>
+                        <input type="hidden" name="fName" value="<?php echo $user["fName"]; ?>" />
+                        <input type="hidden" name="lName" value="<?php echo $user["lName"]; ?>" />
+                        <input type="hidden" name="username" value="<?php echo $user["name"]; ?>" />
+                        <input type="hidden" name="role" value="<?php echo $user["role"]; ?>" />
+                        <h5><?php echo $user["fName"].", ".$user["lName"] ?></h5>
+                        <small><?php echo $user["name"]." - ".$user["role"] ?></small>
                       </button>
                     </form>
                     <?php
@@ -220,10 +221,66 @@ switch ($_SESSION["PAGE_NAME"]) {
     }
     break;
   case 'MY_BACKPACK':
+  $userObj = getUserInfo();
+
   ?>
+  <section class="container">
+    <div class="row my-4">
+      <div class="col-12">
+        <em><h3><?php echo $userObj["fName"]." ".$userObj["lName"].'\'s Backpack'; ?></h3></em>
+      </div>
+    </div>
+  </section>
   <?php
   break;
   case 'BADGE_MANAGEMENT':
+  ?>
+  <section class="container">
+    <div class="row my-4">
+      <div class="col-12">
+        <a href="/badge_create.php" class="btn btn-success">Create Badge</a>
+      </div>
+    </div>
+    <div class="row my-4 mx-1">
+      <div class="col-xl-6 col-md-8 col-sm-10">
+        <input class="form-control mb-2" id="badgeSearch" type="text" placeholder="Search badges..">
+        <ul class="list-group mb-4" id="badges">
+            <?php
+            if (isset($_SESSION["TOKEN"])) {
+
+                $json_data = getAllBadges();
+
+                foreach ($json_data as $badge) {
+                  // badgeName
+                  // description - tags
+                  ?>
+                  <form action="/badge_edit.php" method="POST">
+                    <button type="submit" class="list-group-item list-group-item-action">
+                      <input type="hidden" name="name" value="<?php echo $badge["name"]; ?>" />
+                      <input type="hidden" name="description" value="<?php echo $badge["description"]; ?>" />
+                      <input type="hidden" name="image" value="<?php echo $badge["image"]; ?>" />
+                      <input type="hidden" name="criteria" value="<?php echo $badge["criteria"]; ?>" />
+                      <input type="hidden" name="alignment" value="<?php echo $badge["alignment"]; ?>" />
+                      <input type="hidden" name="tags" value="<?php echo $badge["tags"]; ?>" />
+                      <h5><b><?php echo $badge["name"]; ?></b></h5>
+                      <small><?php echo $badge["description"]; ?><br>
+                        tags: <em><?php foreach ($badge["tags"] as $tag) {
+                        if ($tag === end($badge["tags"])) echo $tag;
+                        else echo $tag.", ";
+                      }; ?></em></small>
+                    </button>
+                  </form>
+                  <?php
+                }
+            }
+            ?>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <?php
+  break;
+  case 'BADGE_EDIT':
   ?>
   <?php
   break;
