@@ -81,4 +81,9 @@
 
 
   }
+
+  function bake($assertion)
+  {
+    
+  }
 ?>

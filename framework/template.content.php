@@ -155,7 +155,7 @@ switch ($_SESSION["PAGE_NAME"]) {
                         <input type="hidden" name="username" value="<?php echo $user["name"]; ?>" />
                         <input type="hidden" name="role" value="<?php echo $user["role"]; ?>" />
                         <h5><?php echo $user["fName"].", ".$user["lName"] ?></h5>
-                        <small><?php echo $user["name"]." - ".$user["role"] ?></small>
+                        <small><?php echo 'username: '.$user["name"].'<br>role: '.$user["role"] ?></small>
                       </button>
                     </form>
                     <?php
@@ -188,9 +188,13 @@ switch ($_SESSION["PAGE_NAME"]) {
               <div class="col-xl-6 col-lg-6 col-md-7 col-sm-10 col-xs-12">
                 <h5>Edit Account: <?php echo $lName.", ".$fName; ?></h5>
                 <form class="" action="/framework/framework.update_userinfo.php" method="post">
+                  <label for="username">Username: </label>
                   <input class="form-control" type="text" name="username" value="<?php echo $username; ?>" readonly><br>
+                  <label for="fName">First Name: </label>
                   <input class="form-control" type="text" name="fName" value="<?php echo $fName; ?>"><br>
+                  <label for="lName">Last Name: </label>
                   <input class="form-control" type="text" name="lName" value="<?php echo $lName; ?>"><br>
+                  <label for="role">Role: </label>
                   <input class="form-control" type="text" name="role" value="<?php echo $role; ?>"><br>
                   <button class="btn btn-success" type="submit">Save Changes</button>
                 </form>
@@ -206,11 +210,17 @@ switch ($_SESSION["PAGE_NAME"]) {
           <div class="col-xl-6 col-lg-6 col-md-7 col-sm-10 col-xs-12">
             <h5>Create New Account</h5>
             <form class="" action="/framework/framework.update_userinfo.php" method="post">
+              <label for="username">Username: </label>
               <input class="form-control" type="text" name="username" placeholder="Username" required><br>
+              <label for="fName">First Name: </label>
               <input class="form-control" type="text" name="fName" placeholder="First Name" required><br>
+              <label for="lName">Last Name: </label>
               <input class="form-control" type="text" name="lName" placeholder="Last Name" required><br>
+              <label for="password">Password: </label>
               <input class="form-control" type="text" name="password" placeholder="Password" required><br>
+              <label for="password">Confirm Password: </label>
               <input class="form-control" type="text" name="password" placeholder="Confirm Password" required><br>
+              <label for="role">Role: </label>
               <input class="form-control" type="text" name="role" placeholder="Authentication role" required><br>
               <button class="btn btn-success" type="submit">Create User</button>
             </form>
