@@ -238,9 +238,50 @@ switch ($_SESSION["PAGE_NAME"]) {
     <div class="row my-4">
       <div class="col-12">
         <em><h3><?php echo $userObj["fName"]." ".$userObj["lName"].'\'s Backpack'; ?></h3></em>
-      </div>
-    </div>
-  </section>
+	    
+		
+		<?php
+		if(!isset($hasBadges)){                                 #Makes sure $hasBadges is not set.
+		   $hasBadges = json_decode(hasBadges($userObj));       #Check to see if user has badges. Convert result to bool.
+		   #$hasBadges = true;
+		   if(isset($hasBadges) && ($hasBadges === true)){      #If $hasBadges is set and true.
+		?>
+		    <!-- Display Badges -->
+		    <div class="row">
+				<div class="col-md-4">
+				<div class="thumbnail">
+				  <a href="/issued_badges/CSIT/IAS/CSCI3630.png">
+					<img src="/issued_badges/CSIT/IAS/CSCI3630.png" alt="CSCI 3630" style="width:85%">
+				  </a>
+				</div>
+				</div>
+				<div class="col-md-4">
+				<div class="thumbnail">
+				  <a href="/issued_badges/CSIT/IAS/CSCI3601.png">
+					<img src="/issued_badges/CSIT/IAS/CSCI3601.png" alt="CSCI 3601" style="width:85%">
+				  </a>
+				</div>
+				</div>
+				<div class="col-md-4">
+				<div class="thumbnail">
+				  <a href="/issued_badges/CSIT/IAS/CSCI3602.png">
+					<img src="/issued_badges/CSIT/IAS/CSCI3602.png" alt="CSCI3602" style="width:85%">
+				  </a>
+				</div>
+			</div>
+		</div>
+		   
+		<?php 		  
+		   } else                                               #If $hasBadges is not set or is not true  
+		      $hasBadges = false;                               #set to false. Fail secure.
+		}
+		
+		if ($hasBadges === false) {                             #Finally, if $hasBadges is false, display a message.
+		   echo '<p>No badges to display.</p>';              
+		  
+		} elseif ($hasBadges != true) 
+		   echo '<p>Something weird happened.</p>';             #We had an error.
+		?>
   <?php
   break;
   case 'BADGE_MANAGEMENT':

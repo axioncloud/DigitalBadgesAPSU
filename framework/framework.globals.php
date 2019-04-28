@@ -84,6 +84,32 @@
 
   function bake($assertion)
   {
-    
+
   }
-?>
+
+  /* hasBadges ******************************************************************/
+  // This function checks to see if the active user has any badges.
+  /******************************************************************************/
+  function hasBadges($userObj){
+	if (isset($_SESSION["TOKEN"])){  
+		$ch = curl_init();
+		$userName = $userObj['name'];
+		curl_setopt($ch, CURLOPT_URL, $_SESSION["COUCHDB"]."/issued_badges/".$userName);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Cookie: '.$_SESSION["TOKEN"],'Content-Length: 0'));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		$response = curl_exec($ch);
+		curl_close($ch);
+		$data = json_decode($response, true);
+		$hasBadges = $data['user']['hasBadges'];
+		return $hasBadges;
+	}
+  }
+
+  /* getUserBadges **************************************************************/
+  // This function sends a cURL request to CouchDB to get all badges for a user. / 
+  /******************************************************************************/
+  function getUserBadges($userObj){
+	  if (isset($_SESSION["TOKEN"])) {
+		
+	  }
+  }
