@@ -301,6 +301,7 @@ switch ($_SESSION["PAGE_NAME"]) {
 		} elseif ($hasBadges != true)
 		   echo '<p>Something weird happened.</p>';             #We had an error.
 		?>
+  </section>
   <?php
   break;
   case 'BADGE_MANAGEMENT':
