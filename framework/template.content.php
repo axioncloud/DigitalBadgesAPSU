@@ -132,7 +132,7 @@ switch ($_SESSION["PAGE_NAME"]) {
       <div class="row my-4 mx-1">
         <div class="col-xl-6 col-md-8 col-sm-10">
           <input class="form-control mb-2" id="userSearch" type="text" placeholder="Search users..">
-          <ul class="list-group mb-4" id="users">
+          <ul class="list-group mb-4" style="max-height: 75%; overflow: auto;" id="users">
               <?php
               if (isset($_SESSION["TOKEN"])) {
                 $ch = curl_init();
@@ -312,9 +312,9 @@ switch ($_SESSION["PAGE_NAME"]) {
       </div>
     </div>
     <div class="row my-4 mx-1">
-      <div class="col-xl-6 col-md-8 col-sm-10">
+      <div class="col-xl-7 col-md-8 col-sm-10">
         <input class="form-control mb-2" id="badgeSearch" type="text" placeholder="Search badges..">
-        <ul class="list-group mb-4" id="badges">
+        <ul class="list-group mb-4" style="min-height: 200px; max-height: 400px; overflow: auto;" id="badges">
             <?php
             if (isset($_SESSION["TOKEN"])) {
 
@@ -324,7 +324,7 @@ switch ($_SESSION["PAGE_NAME"]) {
                   // badgeName
                   // description - tags
                   ?>
-                  <form action="/badge_edit.php" method="POST">
+                  <form class="mb-2" action="/badge_edit.php" method="POST">
                     <button type="submit" class="list-group-item list-group-item-action">
                       <input type="hidden" name="name" value="<?php echo $badge["name"]; ?>" />
                       <input type="hidden" name="description" value="<?php echo $badge["description"]; ?>" />
@@ -341,7 +341,7 @@ switch ($_SESSION["PAGE_NAME"]) {
                       <h5><b><?php echo $badge["name"]; ?></b></h5>
                       <div class="row">
                         <div class="col-4">
-                          <img src="<?php echo $badge['image']; ?>">
+                          <img src="<?php echo $badge['image']; ?>" class="img-thumbnail">
                         </div>
                         <div class="col-8">
                           <small><?php echo $badge["description"]; ?><br>
@@ -393,21 +393,27 @@ switch ($_SESSION["PAGE_NAME"]) {
   ?>
   <section class="container">
     <div class="row">
-      <div class="col-xl-6 col-lg-6 col-md-7 col-sm-10 col-xs-12">
-        <h5>Edit Badge: <?php echo $_POST["name"]; ?></h5>
-        <form class="" action="/framework/framework.update_badgeinfo.php" method="post">
-          <label for="name">Badge Name: </label>
-          <input class="form-control" type="text" name="name" placeholder="Badge Name" required><br>
-          <label for="description">Badge Description: </label>
-          <input class="form-control" type="text" name="description" placeholder="Badge Description"  required><br>
+      <div class="col-xl-8 col-lg-7 col-md-7 col-sm-10 col-xs-12 mb-3 mt-3">
+        <h5>Create a New Badge</h5>
+        <form class="" action="/framework/framework.update_badgeinfo.php" method="post" enctype="multipart/form-data">
+          <div class="row">
+            <div class="col-6">
+              <label for="name">Badge Name: </label>
+              <input class="form-control" type="text" name="name" placeholder="Badge Name" required><br>
+              <label for="description">Badge Description: </label>
+              <input class="form-control" type="text" name="description" placeholder="Badge Description"  required><br>
+              <label for="tags">Tags: </label>
+              <input class="form-control" type="text" name="tags" placeholder="Tags" required><br>
+            </div>
+            <div class="col-6">
+              <label for="criteria">Criteria: </label>
+              <input class="form-control" type="url" name="criteria" placeholder="Criteria" required><br>
+              <label for="alignment">Alignment: </label>
+              <input class="form-control" type="text" name="alignment" placeholder="Alignment" ><br>
+            </div>
+          </div>
           <label for="image">Badge Image: </label>
           <input class="form-control" type="file" name="image" accept="image/x-png" required><br>
-          <label for="criteria">Criteria: </label>
-          <input class="form-control" type="text" name="criteria" placeholder="Criteria" required><br>
-          <label for="alignment">Alignment: </label>
-          <input class="form-control" type="text" name="alignment" placeholder="Alignment" ><br>
-          <label for="tags">Tags: </label>
-          <input class="form-control" type="text" name="tags" placeholder="Tags" required><br>
           <button class="btn btn-success" type="submit">Create Badge</button>
         </form>
       </div>
@@ -419,21 +425,29 @@ switch ($_SESSION["PAGE_NAME"]) {
   ?>
   <section class="container">
     <div class="row">
-      <div class="col-xl-6 col-lg-6 col-md-7 col-sm-10 col-xs-12">
+      <div class="col-xl-9 col-lg-7 col-md-7 col-sm-10 col-xs-12 mb-3 mt-3">
         <h5>Edit Badge: <?php echo $_POST["name"]; ?></h5>
-        <form class="" action="/framework/framework.update_badgeinfo.php" method="post">
-          <label for="name">Badge Name: </label>
-          <input class="form-control" type="text" name="name" placeholder="Badge Name" value="<?php echo $_POST['name']; ?>" required><br>
-          <label for="description">Badge Description: </label>
-          <input class="form-control" type="text" name="description" placeholder="Badge Description" value="<?php echo $_POST['description']; ?>" required><br>
+        <form class="" action="/framework/framework.update_badgeinfo.php" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="image_url" value="<?php echo $_POST['image']; ?>">
+          <div class="row">
+            <div class="col-6">
+              <label for="name">Badge Name: </label>
+              <input class="form-control" type="text" name="name" placeholder="Badge Name" value="<?php echo $_POST['name']; ?>" required><br>
+              <label for="description">Badge Description: </label>
+              <input class="form-control" type="text" name="description" placeholder="Badge Description" value="<?php echo $_POST['description']; ?>" required><br>
+              <label for="tags">Tags: </label>
+              <input class="form-control" type="text" name="tags" placeholder="Tags" value="<?php echo $_POST['tags']; ?>" required><br>
+            </div>
+            <div class="col-6">
+              <label for="criteria">Criteria: </label>
+              <input class="form-control" type="url" name="criteria" placeholder="Criteria" value="<?php echo $_POST['criteria']; ?>" required><br>
+              <label for="alignment">Alignment: </label>
+              <input class="form-control" type="text" name="alignment" placeholder="Alignment" value="<?php echo $_POST['alignment']; ?>"><br>
+            </div>
+          </div>
           <label for="image">Badge Image: </label>
-          <input class="form-control" type="file" name="image" accept="image/x-png" value="<?php echo $_POST['image']; ?>" required><br>
-          <label for="criteria">Criteria: </label>
-          <input class="form-control" type="text" name="criteria" placeholder="Criteria" value="<?php echo $_POST['criteria']; ?>" required><br>
-          <label for="alignment">Alignment: </label>
-          <input class="form-control" type="text" name="alignment" placeholder="Alignment" value="<?php echo $_POST['alignment']; ?>" required><br>
-          <label for="tags">Tags: </label>
-          <input class="form-control" type="text" name="tags" placeholder="Tags" value="<?php echo $_POST['tags']; ?>" required><br>
+          <input class="form-control" type="file" name="image" accept="image/x-png" value="<?php echo $_POST['image']; ?>"><br>
+          <img class="img-fluid" src="<?php echo $_POST['image']; ?>"><br>
           <button class="btn btn-success" type="submit">Save Badge</button>
         </form>
       </div>

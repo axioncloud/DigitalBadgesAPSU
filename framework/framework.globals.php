@@ -18,13 +18,41 @@
     $data = array('name' => $badgeName,
                   'description' => $description,
                   'image' => $image,
-                  'citeria' => $criteria,
+                  'criteria' => $criteria,
                   'alignment' => $alignment,
                   'tags' => $tags);
     $data_json = json_encode($data);
-
+    print_r($data_json);
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL,$_SESSION["COUCHDB"]."/badge_management/_design/badge_management/_update/add_badge/badges?name=$badgeId");
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Cookie: '.$_SESSION["TOKEN"],'Content-Length: ' . strlen($data_json)));
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response  = curl_exec($ch);
+    curl_close($ch);
+  }
+
+  /**
+   * undocumented function summary
+   *
+   * Undocumented function long description
+   *
+   * @param type var Description
+   * @return return type
+   */
+  function editBadge($badgeId, $badgeName, $description, $image='', $criteria='', $alignment=[], $tags=[])
+  {
+    $data = array('name' => $badgeName,
+                  'description' => $description,
+                  'image' => $image,
+                  'criteria' => $criteria,
+                  'alignment' => $alignment,
+                  'tags' => $tags);
+    $data_json = json_encode($data);
+    print_r($data_json);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL,$_SESSION["COUCHDB"]."/badge_management/_design/badge_management/_update/edit_badge/badges?name=$badgeId");
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','Cookie: '.$_SESSION["TOKEN"],'Content-Length: ' . strlen($data_json)));
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
