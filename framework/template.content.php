@@ -7,15 +7,26 @@ switch ($_SESSION["PAGE_NAME"]) {
         <div class="col-sm-6 mx-auto">
           <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img class="d-block w-100" src="/img/badges/csci3601.png" alt="First slide">
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100" src="/img/badges/csci3603.png" alt="Second slide">
-              </div>
-              <div class="carousel-item">
-                <img class="d-block w-100" src="/img/badges/csci3630.png" alt="Third slide">
-              </div>
+              <?php
+              $files = glob('img/badges/*.{png}', GLOB_BRACE);
+              $count = 0;
+              foreach ($files as $file) {
+                if ($count === 0) {
+                  $count = $count + 1;
+                  ?>
+                  <div class="carousel-item active">
+                    <img class="d-block w-100" src="<?php echo $file; ?>">
+                  </div>
+                  <?php
+                } else {
+                ?>
+                  <div class="carousel-item">
+                    <img class="d-block w-100" src="<?php echo $file; ?>">
+                  </div>
+                <?php
+                }
+              }
+              ?>
             </div>
             <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -195,7 +206,11 @@ switch ($_SESSION["PAGE_NAME"]) {
                   <label for="lName">Last Name: </label>
                   <input class="form-control" type="text" name="lName" value="<?php echo $lName; ?>"><br>
                   <label for="role">Role: </label>
-                  <input class="form-control" type="text" name="role" value="<?php echo $role; ?>"><br>
+                  <select class="form-control" name="role" required>
+                    <option value="recipient" <?php if ($role === "recipient") echo "selected"; ?>>Recipient</option>
+                    <option value="issuer" <?php if ($role === "issuer") echo "selected"; ?>>Issuer</option>
+                    <option value="_admin" <?php if ($role === "_admin") echo "selected"; ?>>Admin</option>
+                  </select><br>
                   <button class="btn btn-success" type="submit">Save Changes</button>
                 </form>
               </div>
@@ -221,7 +236,11 @@ switch ($_SESSION["PAGE_NAME"]) {
               <label for="password">Confirm Password: </label>
               <input class="form-control" type="text" name="password" placeholder="Confirm Password" required><br>
               <label for="role">Role: </label>
-              <input class="form-control" type="text" name="role" placeholder="Authentication role" required><br>
+              <select class="form-control" name="role" required>
+                <option value="recipient">Recipient</option>
+                <option value="issuer">Issuer</option>
+                <option value="_admin">Admin</option>
+              </select><br>
               <button class="btn btn-success" type="submit">Create User</button>
             </form>
           </div>
@@ -238,8 +257,8 @@ switch ($_SESSION["PAGE_NAME"]) {
     <div class="row my-4">
       <div class="col-12">
         <em><h3><?php echo $userObj["fName"]." ".$userObj["lName"].'\'s Backpack'; ?></h3></em>
-	    
-		
+
+
 		<?php
 		if(!isset($hasBadges)){                                 #Makes sure $hasBadges is not set.
 		   $hasBadges = json_decode(hasBadges($userObj));       #Check to see if user has badges. Convert result to bool.
@@ -270,16 +289,16 @@ switch ($_SESSION["PAGE_NAME"]) {
 				</div>
 			</div>
 		</div>
-		   
-		<?php 		  
-		   } else                                               #If $hasBadges is not set or is not true  
+
+		<?php
+		   } else                                               #If $hasBadges is not set or is not true
 		      $hasBadges = false;                               #set to false. Fail secure.
 		}
-		
+
 		if ($hasBadges === false) {                             #Finally, if $hasBadges is false, display a message.
-		   echo '<p>No badges to display.</p>';              
-		  
-		} elseif ($hasBadges != true) 
+		   echo '<p>No badges to display.</p>';
+
+		} elseif ($hasBadges != true)
 		   echo '<p>Something weird happened.</p>';             #We had an error.
 		?>
   <?php
@@ -311,14 +330,27 @@ switch ($_SESSION["PAGE_NAME"]) {
                       <input type="hidden" name="description" value="<?php echo $badge["description"]; ?>" />
                       <input type="hidden" name="image" value="<?php echo $badge["image"]; ?>" />
                       <input type="hidden" name="criteria" value="<?php echo $badge["criteria"]; ?>" />
-                      <input type="hidden" name="alignment" value="<?php echo $badge["alignment"]; ?>" />
-                      <input type="hidden" name="tags" value="<?php echo $badge["tags"]; ?>" />
+                      <input type="hidden" name="alignment" value="<?php foreach ($badge["alignment"] as $tag) {
+                      if ($tag === end($badge["alignment"])) echo $tag;
+                      else echo $tag.", ";
+                    }; ?>" />
+                      <input type="hidden" name="tags" value="<?php foreach ($badge["tags"] as $tag) {
+                      if ($tag === end($badge["tags"])) echo $tag;
+                      else echo $tag.", ";
+                    }; ?>" />
                       <h5><b><?php echo $badge["name"]; ?></b></h5>
-                      <small><?php echo $badge["description"]; ?><br>
-                        tags: <em><?php foreach ($badge["tags"] as $tag) {
-                        if ($tag === end($badge["tags"])) echo $tag;
-                        else echo $tag.", ";
-                      }; ?></em></small>
+                      <div class="row">
+                        <div class="col-4">
+                          <img src="<?php echo $badge['image']; ?>">
+                        </div>
+                        <div class="col-8">
+                          <small><?php echo $badge["description"]; ?><br>
+                            tags: <em><?php foreach ($badge["tags"] as $tag) {
+                            if ($tag === end($badge["tags"])) echo $tag;
+                            else echo $tag.", ";
+                          }; ?></em></small>
+                        </div>
+                      </div>
                     </button>
                   </form>
                   <?php
@@ -331,8 +363,82 @@ switch ($_SESSION["PAGE_NAME"]) {
   </section>
   <?php
   break;
+  case 'BADGE_ISSUE':
+  ?>
+  <section class="container">
+    <div class="row">
+      <div class="col-xl-6 col-lg-6 col-md-7 col-sm-10 col-xs-12">
+        <h5>Edit Badge: <?php echo $_POST["name"]; ?></h5>
+        <form class="" action="/framework/framework.update_badgeinfo.php" method="post">
+          <label for="name">Badge Name: </label>
+          <input class="form-control" type="text" name="name" placeholder="Badge Name" value="<?php echo $_POST['name']; ?>" required><br>
+          <label for="description">Badge Description: </label>
+          <input class="form-control" type="text" name="description" placeholder="Badge Description" value="<?php echo $_POST['description']; ?>" required><br>
+          <label for="image">Badge Image: </label>
+          <input class="form-control" type="file" name="image" accept="image/x-png" value="<?php echo $_POST['image']; ?>" required><br>
+          <label for="criteria">Criteria: </label>
+          <input class="form-control" type="text" name="criteria" placeholder="Criteria" value="<?php echo $_POST['criteria']; ?>" required><br>
+          <label for="alignment">Alignment: </label>
+          <input class="form-control" type="text" name="alignment" placeholder="Alignment" value="<?php echo $_POST['alignment']; ?>" required><br>
+          <label for="tags">Tags: </label>
+          <input class="form-control" type="text" name="tags" placeholder="Tags" value="<?php echo $_POST['tags']; ?>" required><br>
+          <button class="btn btn-success" type="submit">Issue</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  <?php
+  break;
+  case 'BADGE_CREATE':
+  ?>
+  <section class="container">
+    <div class="row">
+      <div class="col-xl-6 col-lg-6 col-md-7 col-sm-10 col-xs-12">
+        <h5>Edit Badge: <?php echo $_POST["name"]; ?></h5>
+        <form class="" action="/framework/framework.update_badgeinfo.php" method="post">
+          <label for="name">Badge Name: </label>
+          <input class="form-control" type="text" name="name" placeholder="Badge Name" required><br>
+          <label for="description">Badge Description: </label>
+          <input class="form-control" type="text" name="description" placeholder="Badge Description"  required><br>
+          <label for="image">Badge Image: </label>
+          <input class="form-control" type="file" name="image" accept="image/x-png" required><br>
+          <label for="criteria">Criteria: </label>
+          <input class="form-control" type="text" name="criteria" placeholder="Criteria" required><br>
+          <label for="alignment">Alignment: </label>
+          <input class="form-control" type="text" name="alignment" placeholder="Alignment" ><br>
+          <label for="tags">Tags: </label>
+          <input class="form-control" type="text" name="tags" placeholder="Tags" required><br>
+          <button class="btn btn-success" type="submit">Create Badge</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  <?php
+  break;
   case 'BADGE_EDIT':
   ?>
+  <section class="container">
+    <div class="row">
+      <div class="col-xl-6 col-lg-6 col-md-7 col-sm-10 col-xs-12">
+        <h5>Edit Badge: <?php echo $_POST["name"]; ?></h5>
+        <form class="" action="/framework/framework.update_badgeinfo.php" method="post">
+          <label for="name">Badge Name: </label>
+          <input class="form-control" type="text" name="name" placeholder="Badge Name" value="<?php echo $_POST['name']; ?>" required><br>
+          <label for="description">Badge Description: </label>
+          <input class="form-control" type="text" name="description" placeholder="Badge Description" value="<?php echo $_POST['description']; ?>" required><br>
+          <label for="image">Badge Image: </label>
+          <input class="form-control" type="file" name="image" accept="image/x-png" value="<?php echo $_POST['image']; ?>" required><br>
+          <label for="criteria">Criteria: </label>
+          <input class="form-control" type="text" name="criteria" placeholder="Criteria" value="<?php echo $_POST['criteria']; ?>" required><br>
+          <label for="alignment">Alignment: </label>
+          <input class="form-control" type="text" name="alignment" placeholder="Alignment" value="<?php echo $_POST['alignment']; ?>" required><br>
+          <label for="tags">Tags: </label>
+          <input class="form-control" type="text" name="tags" placeholder="Tags" value="<?php echo $_POST['tags']; ?>" required><br>
+          <button class="btn btn-success" type="submit">Save Badge</button>
+        </form>
+      </div>
+    </div>
+  </section>
   <?php
   break;
   case 'ERROR':

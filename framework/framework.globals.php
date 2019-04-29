@@ -84,14 +84,14 @@
 
   function bake($assertion)
   {
-
+    exec('node_modules/openbadges-bakery-v2/bin/oven '.'--in img/badges/CSCI3600.png '.'--out img/issued_badges/nate6631_CSC3600.png '.$assertion);
   }
 
   /* hasBadges ******************************************************************/
   // This function checks to see if the active user has any badges.
   /******************************************************************************/
   function hasBadges($userObj){
-	if (isset($_SESSION["TOKEN"])){  
+	if (isset($_SESSION["TOKEN"])){
 		$ch = curl_init();
 		$userName = $userObj['name'];
 		curl_setopt($ch, CURLOPT_URL, $_SESSION["COUCHDB"]."/issued_badges/".$userName);
@@ -106,10 +106,10 @@
   }
 
   /* getUserBadges **************************************************************/
-  // This function sends a cURL request to CouchDB to get all badges for a user. / 
+  // This function sends a cURL request to CouchDB to get all badges for a user. /
   /******************************************************************************/
   function getUserBadges($userObj){
 	  if (isset($_SESSION["TOKEN"])) {
-		
+
 	  }
   }

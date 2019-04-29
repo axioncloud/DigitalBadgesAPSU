@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "0.10"
+dist: trusty
+sudo: required
+notifications:
+  email:
+    recipients:
+      - brian@mozillafoundation.org

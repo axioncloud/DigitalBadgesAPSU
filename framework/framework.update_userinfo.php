@@ -16,8 +16,9 @@
 
     preg_match('/\{(?:[^{}]|(?R))*\}/', $response, $regex_match_roles);
     $doc = json_decode($regex_match_roles[0], true);
+    var_dump($doc);
 
-    $data = array('_id' => "org.couchdb.user:".$username, '_rev' => $doc['_rev'], 'name' => $username, 'type' => 'user', 'fName' => $fName, 'lName' => $lName, 'roles' => array($role));
+    $data = array('_id' => "org.couchdb.user:".$username, '_rev' => $doc['_rev'], 'name' => $username, 'type' => 'user', 'fName' => $fName, 'lName' => $lName, 'roles' => array($role), 'password_scheme' => $doc['password_scheme'], 'iterations' => $doc['iterations'], 'derived_key' => $doc['derived_key'], 'salt' => $doc['salt']);
     $data_json = json_encode($data);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
