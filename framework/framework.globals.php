@@ -128,8 +128,11 @@
 		$response = curl_exec($ch);
 		curl_close($ch);
 		$data = json_decode($response, true);
-		$hasBadges = $data['user']['hasBadges'];
-		return $hasBadges;
+		
+		if (isset($data['user'])) {                      #Prevents an exception if, for whatever reason, 
+		   $hasBadges = $data['user']['hasBadges'];      #the user does not have an issued_badges db entry.
+		   return $hasBadges;
+		}
 	}
   }
 

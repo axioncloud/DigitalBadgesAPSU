@@ -257,40 +257,50 @@ switch ($_SESSION["PAGE_NAME"]) {
     <div class="row my-4">
       <div class="col-12">
         <em><h3><?php echo $userObj["fName"]." ".$userObj["lName"].'\'s Backpack'; ?></h3></em>
-
-
+      
 		<?php
 		if(!isset($hasBadges)){                                 #Makes sure $hasBadges is not set.
 		   $hasBadges = json_decode(hasBadges($userObj));       #Check to see if user has badges. Convert result to bool.
 		   #$hasBadges = true;
 		   if(isset($hasBadges) && ($hasBadges === true)){      #If $hasBadges is set and true.
 		?>
-		    <!-- Display Badges -->
-		    <div class="row">
-				<div class="col-md-4">
-				<div class="thumbnail">
-				  <a href="/issued_badges/CSIT/IAS/CSCI3630.png">
-					<img src="/issued_badges/CSIT/IAS/CSCI3630.png" alt="CSCI 3630" style="width:85%">
-				  </a>
-				</div>
-				</div>
-				<div class="col-md-4">
-				<div class="thumbnail">
-				  <a href="/issued_badges/CSIT/IAS/CSCI3601.png">
-					<img src="/issued_badges/CSIT/IAS/CSCI3601.png" alt="CSCI 3601" style="width:85%">
-				  </a>
-				</div>
-				</div>
-				<div class="col-md-4">
-				<div class="thumbnail">
-				  <a href="/issued_badges/CSIT/IAS/CSCI3602.png">
-					<img src="/issued_badges/CSIT/IAS/CSCI3602.png" alt="CSCI3602" style="width:85%">
-				  </a>
-				</div>
-			</div>
-		</div>
-
+		<section class="container" alignment="center">
 		<?php
+              $files = glob('img/badges/*.{png}', GLOB_BRACE);
+              $count = 0;
+              foreach ($files as $file) {
+                if ($count === 0) { ?>
+                   <div class="row">
+					   <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+						  <div class="thumbnail">
+							<a href="<?php echo $file; ?>">
+							<img src="<?php echo $file; ?>" style="width:75%">
+							</a>
+						  </div>
+					   </div>
+                  <?php 
+				  $count += 1;
+                } else {
+                ?>
+					  <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+						  <div class="thumbnail">
+							<a href="<?php echo $file; ?>">
+							<img src="<?php echo $file; ?>" style="width:75%">
+							</a>
+						  </div>
+					   </div>
+					
+                <?php
+				   
+				   #counter 
+				   if ($count === 2) { ?>    
+				    </div>   
+				   <?php $count = 0;       
+				   } else $count++;        
+                }
+              } #end foreach ?>
+		   </section>	  
+		   <?php   
 		   } else                                               #If $hasBadges is not set or is not true
 		      $hasBadges = false;                               #set to false. Fail secure.
 		}
