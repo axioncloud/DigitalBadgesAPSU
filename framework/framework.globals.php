@@ -120,6 +120,21 @@
   /******************************************************************************/
   function hasBadges($userObj){
 	if (isset($_SESSION["TOKEN"])){
+		$userName = $userObj['name'];
+		$files = glob('img/issued_badges/'.$userName.'*{png}', GLOB_BRACE);
+		
+		if (sizeOf($files) > 0)                 
+			$hasBadges = true;
+		else 
+			$hasBadges = false;
+		
+		return $hasBadges;
+		
+		/************************************************************************
+		// The following can be used to implement hasBadges function from the 
+		// issued_badges database. When implemented, ensure json_decode is used
+		// from the fn call in content else $hasBadges will be a String.
+		/************************************************************************
 		$ch = curl_init();
 		$userName = $userObj['name'];
 		curl_setopt($ch, CURLOPT_URL, $_SESSION["COUCHDB"]."/issued_badges/".$userName);
@@ -133,6 +148,7 @@
 		   $hasBadges = $data['user']['hasBadges'];      #the user does not have an issued_badges db entry.
 		   return $hasBadges;
 		}
+		*/
 	}
   }
 

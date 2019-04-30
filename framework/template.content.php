@@ -260,8 +260,8 @@ switch ($_SESSION["PAGE_NAME"]) {
       
 		<?php
 		if(!isset($hasBadges)){                                 #Makes sure $hasBadges is not set.
-		   $hasBadges = json_decode(hasBadges($userObj));       #Check to see if user has badges. Convert result to bool.
-		   #$hasBadges = true;
+		   #$hasBadges = json_decode(hasBadges($userObj));       #Check to see if user has badges. Convert result to bool.
+		   $hasBadges = hasBadges($userObj);
 		   if(isset($hasBadges) && ($hasBadges === true)){      #If $hasBadges is set and true.
 		?>
 		<section class="container" alignment="center">
