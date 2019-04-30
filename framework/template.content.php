@@ -266,7 +266,7 @@ switch ($_SESSION["PAGE_NAME"]) {
 		?>
 		<section class="container" alignment="center">
 		<?php
-              $files = glob('img/badges/*.{png}', GLOB_BRACE);
+              $files = glob('img/issued_badges/'.$userObj["name"].'*.{png}', GLOB_BRACE);
               $count = 0;
               foreach ($files as $file) {
                 if ($count === 0) { ?>
