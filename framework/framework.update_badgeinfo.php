@@ -2,7 +2,7 @@
   require 'framework.globals.php';
   $name = $_POST['name'];
   $description = $_POST['description'];
-  $image = $_POST['image'];
+  // $image = $_POST['image'];
   $criteria = $_POST['criteria'];
   $alignment = $_POST['alignment'];
   $tags = $_POST['tags'];
@@ -15,14 +15,14 @@
   $id = strtolower($name);
   $id = str_replace(' ', '', $id);
   if ($_SESSION['PAGE_NAME'] === 'BADGE_CREATE') {
-    $badgeImage = 'img/badges/'.basename($_FILES['image']['name']);
+    $badgeImage = 'img/badges/'.$id.".png";
     move_uploaded_file($_FILES['image']['tmp_name'], $badgeImage);
     $image_url = 'https://ioncloud64.com/'.$badgeImage;
 
     createBadge($id, $name, $description, $image_url, $criteria, $alignment, $tags);
   } else if ($_SESSION['PAGE_NAME'] === 'BADGE_EDIT') {
     if (!empty($_FILES)) { // uploading an image
-      $badgeImage = 'img/badges/'.basename($_FILES['image']['name']);
+      $badgeImage = 'img/badges/'.$id.".png";
       $isMoved = move_uploaded_file($_FILES['image']['tmp_name'], $badgeImage);
       $image_url = 'https://ioncloud64.com/'.$badgeImage;
 

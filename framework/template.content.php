@@ -257,7 +257,7 @@ switch ($_SESSION["PAGE_NAME"]) {
     <div class="row my-4">
       <div class="col-12">
         <em><h3><?php echo $userObj["fName"]." ".$userObj["lName"].'\'s Backpack'; ?></h3></em>
-      
+
 		<?php
 		if(!isset($hasBadges)){                                 #Makes sure $hasBadges is not set.
 		   #$hasBadges = json_decode(hasBadges($userObj));       #Check to see if user has badges. Convert result to bool.
@@ -278,7 +278,7 @@ switch ($_SESSION["PAGE_NAME"]) {
 							</a>
 						  </div>
 					   </div>
-                  <?php 
+                  <?php
 				  $count += 1;
                 } else {
                 ?>
@@ -289,18 +289,18 @@ switch ($_SESSION["PAGE_NAME"]) {
 							</a>
 						  </div>
 					   </div>
-					
+
                 <?php
-				   
-				   #counter 
-				   if ($count === 2) { ?>    
-				    </div>   
-				   <?php $count = 0;       
-				   } else $count++;        
+
+				   #counter
+				   if ($count === 2) { ?>
+				    </div>
+				   <?php $count = 0;
+				   } else $count++;
                 }
               } #end foreach ?>
-		   </section>	  
-		   <?php   
+		   </section>
+		   <?php
 		   } else                                               #If $hasBadges is not set or is not true
 		      $hasBadges = false;                               #set to false. Fail secure.
 		}
@@ -318,8 +318,57 @@ switch ($_SESSION["PAGE_NAME"]) {
   ?>
   <section class="container">
     <div class="row my-4">
-      <div class="col-12">
+      <div class="col-3">
         <a href="/badge_create.php" class="btn btn-success">Create Badge</a>
+      </div>
+      <div class="col-3">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Issue Badge</button>
+
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Issue a Badge</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <form class="" action="/framework/framework.issuebadge.php" method="post">
+                <div class="modal-body">
+                  <label for="username">Username</label>
+                  <select class="form-control" name="username" required>
+                    <?php
+                      $users = getAllUsers();
+                      foreach ($users as $user) {
+                        ?>
+                        <option value="<?php echo $user['name']; ?>"><?php echo $user['lName'].', '.$user['fName']." - ".$user['name']; ?></option>
+                        <?php
+                      }
+                    ?>
+                  </select>
+                  <label for="badgeid">Badge</label>
+                  <select class="form-control" name="badgeid" required>
+                    <?php
+                      $badges = getAllBadges();
+                        foreach ($badges as $badgeId => $badge) {
+                          ?>
+                          <option value="<?php echo $badgeId; ?>"><?php echo $badge['name']; ?></option>
+                          <?php
+                        }
+                    ?>
+                  </select>
+                  <label for="expirationDate">Expiration Date</label>
+                  <h6>By clearing this field you will set a badge to not expire.</h6>
+                  <input type="date" name="expirationDate" class="form-control" value="<?php echo date('Y-m-d', mktime(0, 0, 0, date('m'), date('d'), date('Y')+1)); ?>">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-success">Save changes</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="row my-4 mx-1">
@@ -369,32 +418,6 @@ switch ($_SESSION["PAGE_NAME"]) {
             }
             ?>
         </ul>
-      </div>
-    </div>
-  </section>
-  <?php
-  break;
-  case 'BADGE_ISSUE':
-  ?>
-  <section class="container">
-    <div class="row">
-      <div class="col-xl-6 col-lg-6 col-md-7 col-sm-10 col-xs-12">
-        <h5>Edit Badge: <?php echo $_POST["name"]; ?></h5>
-        <form class="" action="/framework/framework.update_badgeinfo.php" method="post">
-          <label for="name">Badge Name: </label>
-          <input class="form-control" type="text" name="name" placeholder="Badge Name" value="<?php echo $_POST['name']; ?>" required><br>
-          <label for="description">Badge Description: </label>
-          <input class="form-control" type="text" name="description" placeholder="Badge Description" value="<?php echo $_POST['description']; ?>" required><br>
-          <label for="image">Badge Image: </label>
-          <input class="form-control" type="file" name="image" accept="image/x-png" value="<?php echo $_POST['image']; ?>" required><br>
-          <label for="criteria">Criteria: </label>
-          <input class="form-control" type="text" name="criteria" placeholder="Criteria" value="<?php echo $_POST['criteria']; ?>" required><br>
-          <label for="alignment">Alignment: </label>
-          <input class="form-control" type="text" name="alignment" placeholder="Alignment" value="<?php echo $_POST['alignment']; ?>" required><br>
-          <label for="tags">Tags: </label>
-          <input class="form-control" type="text" name="tags" placeholder="Tags" value="<?php echo $_POST['tags']; ?>" required><br>
-          <button class="btn btn-success" type="submit">Issue</button>
-        </form>
       </div>
     </div>
   </section>
