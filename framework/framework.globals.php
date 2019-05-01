@@ -142,7 +142,8 @@
           $response = curl_exec($ch);
           $curl_info = curl_getinfo($ch);
           $code = intval($curl_info["http_code"]);
-          if ($code !== 200) {
+          echo $code;
+          if ($code !== 201) {
             // couldn't add the user, something went wrong
             return false;
           }
