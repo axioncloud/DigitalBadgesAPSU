@@ -1,5 +1,5 @@
 <?php
-  require 'framework.cookiemanagement.php';
+  require 'framework.globals.php';
   // username field from login form
   $uname = $_POST["username"];
   // password field from login form

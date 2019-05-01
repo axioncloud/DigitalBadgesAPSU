@@ -1,5 +1,5 @@
 <?php
-include 'framework.globals.php';
+require 'framework.globals.php';
 // check if the token is already set to false
 // if it is, skip this
 if (isset($_SESSION["TOKEN"])) {
@@ -17,5 +17,8 @@ if (isset($_SESSION["TOKEN"])) {
     unset($_SESSION["ROLES"]);
     header("Location: /");
   }
+} else {
+  header('HTTP/1.0 404 Not Found');
+  include '../error.php';
 }
 ?>

@@ -21,5 +21,6 @@ if (isset($_SESSION["ROLES"])) {
     <?php include 'framework/template.navbar.php'; ?>
     <?php include 'framework/template.content.php'; ?>
     <?php include 'framework/template.footer.php'; ?>
+    <script src="/js/search_badges.js"></script>
   </body>
 </html>
