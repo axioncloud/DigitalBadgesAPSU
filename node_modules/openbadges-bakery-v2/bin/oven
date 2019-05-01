@@ -1,0 +1,89 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const argv = require('optimist').argv;
+const bakery = require('../');
+const path = require('path');
+const input = argv._[0];
+const infile = argv.in||argv.infile;
+const outfile = argv.out||argv.outfile;
+const extract = 'extract' in argv;
+
+function log(msg) { process.stderr.write(msg + '\n') }
+function out(data) { process.stdout.write(data) }
+
+function extractData(stream, timer) {
+  bakery.extract(stream, function done(err, data) {
+    timer && timer.clear();
+    if (err) {
+      log('there was an error:', err.message);
+      process.exit(1);
+    }
+    out(data + '\n');
+    process.exit(0);
+  });
+}
+
+function bakeImage(stream, timer) {
+  stream.resume();
+
+  const opts = { image: stream }
+
+  if (isJson(input)) {
+    console.error('interpreting input as JSON')
+    opts.assertion = JSON.parse(input)
+  }
+
+  else {
+    console.error('interpreting input as a URL')
+    opts.url = input
+  }
+
+  bakery.bake(opts, function done(err, baked) {
+    timer && timer.clear();
+    if (err) {
+      log('there was an error:', err.message);
+      process.exit(1);
+    }
+    if (outfile) {
+      fs.writeFileSync(path.resolve(outfile), baked)
+    } else {
+      out(baked);
+    }
+    process.exit(0);
+  });
+}
+
+(function main() {
+  const timer = {
+    id: null,
+    length: 2000,
+    clear: function () { this.id && clearTimeout(this.id) },
+    set: function () { return this.id = setTimeout.apply(null, arguments) }
+  };
+  if (!input && !extract)  {
+    log('You must pass a url or JSON to bake into the image');
+    process.exit(1);
+  }
+  const stream = (function figureOutStream() {
+    if (infile)
+      return fs.createReadStream(path.resolve(infile))
+    timer.set(function () { log('waiting for image data on stdin...')}, 2000);
+    return process.stdin
+  })()
+
+  if (extract)
+    return extractData(stream, timer);
+  return bakeImage(stream, timer);
+})()
+
+
+process.on('SIGINT', function () {
+  log('interrupt');
+  process.exit(2);
+});
+
+function isJson(str) {
+  try { JSON.parse(str); return true }
+  catch(e) { return false }
+}

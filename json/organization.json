@@ -1,0 +1,11 @@
+{
+  "@context": "https://w3id.org/openbadges/v2",
+  "type": "Issuer",
+  "id": "https://ioncloud64.com/json/organization.json",
+  "name": "ioncloud64 Badge Issuing Organization",
+  "image": "https://ioncloud64.com/favicon.png",
+  "url": "https://ioncloud64.com",
+  "email": "admin@ioncloud64.com",
+  "publicKey": "https://example.org/json/publicKey.json",
+  "revocationList": "https://ioncloud64.com/json/revocationList.json"
+}
