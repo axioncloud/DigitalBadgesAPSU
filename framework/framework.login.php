@@ -30,6 +30,7 @@
     $curl_info = curl_getinfo($ch);
     $code = intval($curl_info["http_code"]);
     curl_close($ch);
+    
 
     if ($code === 200) {
       preg_match('/\{(?:[^{}]|(?R))*\}/', $response, $regex_match_roles);

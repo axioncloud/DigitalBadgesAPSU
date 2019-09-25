@@ -22,6 +22,8 @@ Allowed characters [A-Z a-z 0-9 _ .]"
           pattern="^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$">
           <button class="btn btn-outline-success my-2 my-sm-0 ml-auto" type="submit">Login</button>
         </form>
+
+        <a class="btn btn-outline-danger my-2 my-sm-0 ml-sm-2" role="button" href="register.php">Register</a>
       </div>
     </nav>
 <?php
@@ -32,6 +34,7 @@ Allowed characters [A-Z a-z 0-9 _ .]"
     <!-- Navigation -->
     <nav class="navbar navbar-expand-md navbar-light bg-light">
       <a class="navbar-brand" href="<?php echo $_SESSION['URL']; ?>">APSU IAS: Badge Management</a>
+      <a class="btn btn-outline-danger my-2 my-sm-0 ml-auto" role="button" href="register.php">Register</a>
     </nav>
 <?php
   break;

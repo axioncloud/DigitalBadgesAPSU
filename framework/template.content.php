@@ -41,9 +41,13 @@ switch ($_SESSION["PAGE_NAME"]) {
       </div>
       <div class="row">
         <div class="col-sm-10 mx-auto">
-          <h3 class="display-4">Example Badges</h3>
+          <h3 class="display-4">About This Tool</h3>
           <p class="lead">
-            The images above are some highlighted example badges earned in the APSU CSCI: IAS Graduate/Undergraduate program.
+            APSU CSCI: IAS Graduate/Undergraduate thesis project created by
+            Nathan Martin (2019). The Badge Management system is designed to
+            create, embed, and edit digital badge data. All images and other
+            artwork are required to be made outside of this resource. The
+            internal database prioritizes big data by using CouchDB.
           </p>
         </div>
       </div>
@@ -79,6 +83,66 @@ switch ($_SESSION["PAGE_NAME"]) {
                 }
               ?>
               <form action="framework/framework.login.php" method="POST">
+              <strong>Username requirements:</strong><br>
+              <ul>
+                <li>6 to 20 characters</li>
+                <li>Allowed characters [A-Z a-z 0-9 _ .]</li>
+                <li>Underscore cannot be at the beginning or end</li>
+                <li>Spaces are not allowed</li>
+              </ul>
+                <input class="form-control mr-sm-2" name="username" type="text" placeholder="Username"
+                 aria-label="Username" value="<?php if (isset($_POST['username'])) echo $_POST['username']; ?>" pattern="^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$" value="<?php echo $_POST['username']; ?>" required>
+               <strong>Password requirements:</strong><br>
+               <ul>
+                 <li>Minimum of 8 chracters</li>
+                 <li>At least 1 capital letter</li>
+                 <li>At least 1 lowercase letter</li>
+                 <li>At least 1 number</li>
+                 <li>Allowed characters A-Z a-z 0-9 # ? ! @ $ % ^ & *</li>
+                 <li>Spaces are not allowed</li>
+               </ul>
+                <input class="form-control mr-sm-2" name="password" type="password" placeholder="Password"
+                aria-label="Password" pattern="^(?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9])(?=[#?!@$%^&*-]*)\S{8,}$" value="<?php if (isset($_POST['password'])) echo $_POST['password']; ?>" required>
+                <div class="text-right">
+                  <button class="btn btn-outline-success my-2 ml-auto" type="submit">Login</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      </section>
+<?php
+  break;
+  case 'REGISTER':
+    if (isset($_SESSION['STORED_POST'])) {
+      $_POST = $_SESSION['STORED_POST'];
+      $_SERVER['REQUEST_METHOD'] = 'POST';
+      unset($_SESSION['STORED_POST']);
+    }
+?>
+    <section class="container">
+      <div class="row">
+        <div class="col-xl-6 col-lg-7 col-md-8 col-xs-12 mx-auto">
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title">Registration</h3>
+              <?php
+                if (isset($_SESSION["TOKEN"])) {
+                  if ($_SESSION["TOKEN"] === "false") {
+              ?>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Username is already taken!<br>Please try again.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <?php
+                    unset($_SESSION["TOKEN"]);
+                  }
+                }
+              ?>
+              <form action="framework/framework.register.php" method="POST">
               <strong>Username requirements:</strong><br>
               <ul>
                 <li>6 to 20 characters</li>
